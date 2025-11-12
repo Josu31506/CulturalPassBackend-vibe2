@@ -153,6 +153,20 @@ public class StatisticService {
                 .build();
     }
 
+    public StatisticsOverviewDto getStatisticsOverview(Integer month, Integer year) {
+        OffsetDateTime now = OffsetDateTime.now();
+        Integer targetMonth = month != null ? month : now.getMonthValue();
+        Integer targetYear = year != null ? year : now.getYear();
+
+        return StatisticsOverviewDto.builder()
+                .monthlyUsersEnrolled(getMonthlyUsersEnrolled(targetMonth, targetYear))
+                .pendingEvents(getPendingEvents())
+                .yearlyEvents(getYearlyEvents(targetYear))
+                .monthlyRevenue(getMonthlyRevenue(targetMonth, targetYear))
+                .monthlyEnrollmentRecord(getMonthlyEnrollmentRecord(targetMonth, targetYear))
+                .build();
+    }
+
     private void validateMonthYear(Integer month, Integer year) {
         if (month == null || month < 1 || month > 12) {
             throw new InvalidDateRangeException("El mes debe estar entre 1 y 12");

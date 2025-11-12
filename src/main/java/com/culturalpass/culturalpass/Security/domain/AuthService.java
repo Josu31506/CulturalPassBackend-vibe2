@@ -38,7 +38,14 @@ public class AuthService {
                 throw new AuthenticationFailedException("Contraseña incorrecta");
             }
             String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
-            return new LoginResponseDto(token);
+            return LoginResponseDto.builder()
+                    .token(token)
+                    .userId(user.getId())
+                    .email(user.getEmail())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .role(user.getRole().name())
+                    .build();
         } catch (UserNotFoundException | AuthenticationFailedException e) {
             throw e;
         } catch (Exception e) {

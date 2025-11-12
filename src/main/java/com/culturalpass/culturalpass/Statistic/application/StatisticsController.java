@@ -75,4 +75,14 @@ public class StatisticsController {
         MonthlyEnrollmentRecordDto response = statisticService.getMonthlyEnrollmentRecord(targetMonth, targetYear);
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/overview")
+    public ResponseEntity<StatisticsOverviewDto> getStatisticsOverview(
+            @RequestParam(required = false) Integer month,
+            @RequestParam(required = false) Integer year) {
+
+        StatisticsOverviewDto response = statisticService.getStatisticsOverview(month, year);
+        return ResponseEntity.ok(response);
+    }
 }
